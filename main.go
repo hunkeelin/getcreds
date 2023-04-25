@@ -11,7 +11,8 @@ import (
 
 var (
 	tokenCode  = flag.String("t", "", "the mfa code")
-	assumeRole = flag.String("p", "lumz", "The aws profile to assume")
+	assumeRole = flag.String("p", "", "The aws profile to assume")
+	roleArn    = flag.String("r", "", "the arn of your role")
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 	svc := sts.New(session.New())
 	input := &sts.GetSessionTokenInput{
 		DurationSeconds: aws.Int64(129600),
-		SerialNumber:    aws.String("arn:aws:iam::755619740999:mfa/LUMZ"),
+		SerialNumber:    aws.String(*roleArn),
 		TokenCode:       aws.String(*tokenCode),
 	}
 
